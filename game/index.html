@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA HARVEST — a neon arena survival game</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+  <canvas id="game" width="1280" height="800"></canvas>
+
+  <!-- In-game HUD (visibility is driven by ui.js via inline style) -->
+  <div id="hud" style="display:none">
+    <div class="hud-left">
+      <div class="hud-panel hud-score">SCORE <span id="hud-score">0</span></div>
+      <div class="hud-panel hud-combo">COMBO <span id="hud-combo">×1.0</span></div>
+      <div class="hud-panel hud-wave">WAVE <span id="hud-wave">1</span></div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-panel hud-bars">
+        <div class="bar-label">HULL <span id="hud-hp-text">100/100</span></div>
+        <div class="bar"><div id="hud-hp-fill" class="bar-fill hp"></div></div>
+        <div class="bar-label">DASH <span id="hud-dash-text">READY</span></div>
+        <div class="bar"><div id="hud-dash-fill" class="bar-fill dash"></div></div>
+        <div id="hud-shield" class="shield-chip hidden">🛡 SHIELD READY</div>
+      </div>
+      <div class="hud-panel hud-info">
+        <div>ENEMIES <span id="hud-enemies">0</span></div>
+        <div>SHARDS <span id="hud-shards">0</span></div>
+      </div>
+      <button id="btn-pause" class="btn btn-small" type="button" title="Pause (Esc / P)">II</button>
+      <button id="btn-mute" class="btn btn-small" type="button" title="Mute (M)">🔊</button>
+    </div>
+  </div>
+
+  <!-- Wave banner -->
+  <div id="banner" style="display:none">
+    <div id="banner-title"></div>
+    <div id="banner-sub"></div>
+  </div>
+
+  <!-- Title screen -->
+  <div id="screen-title" class="screen">
+    <div class="panel">
+      <h1 class="game-title">NOVA<br>HARVEST</h1>
+      <p class="tagline">Pilot your harvester through the neon void. Blast void
+        creatures, gather star shards, and survive the waves.</p>
+      <div class="controls">
+        <div><kbd>W A S D</kbd> / <kbd>← ↑ ↓ →</kbd> move</div>
+        <div><kbd>Mouse</kbd> aim &nbsp;·&nbsp; <kbd>Hold Click</kbd> / <kbd>Space</kbd> fire</div>
+        <div><kbd>Shift</kbd> / <kbd>Right Click</kbd> dash</div>
+        <div><kbd>Esc</kbd> pause &nbsp;·&nbsp; <kbd>M</kbd> mute</div>
+      </div>
+      <button id="btn-start" class="btn btn-primary btn-start" type="button">▶&nbsp; Start Harvest</button>
+      <p class="best-line"><span id="title-best">BEST 0</span></p>
+      <p class="hint">Clear a wave, pick 1 of 3 upgrades, and push deeper.</p>
+    </div>
+  </div>
+
+  <!-- Upgrade screen -->
+  <div id="screen-upgrade" class="screen" style="display:none">
+    <div class="panel">
+      <h2 class="screen-title">WAVE CLEARED</h2>
+      <p class="tagline">Choose one upgrade to carry into the next wave.</p>
+      <div id="upgrade-cards" class="cards"></div>
+    </div>
+  </div>
+
+  <!-- Pause screen -->
+  <div id="screen-paused" class="screen" style="display:none">
+    <div class="panel">
+      <h2 class="screen-title">PAUSED</h2>
+      <p class="tagline">The void waits for no one. Except now.</p>
+      <div class="button-row">
+        <button id="btn-resume" class="btn btn-primary btn-resume" type="button">Resume</button>
+        <button id="btn-restart-pause" class="btn btn-restart" type="button">Restart Run</button>
+        <button id="btn-mute-pause" class="btn btn-mute" type="button">🔊 Sound On</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game over screen -->
+  <div id="screen-gameover" class="screen" style="display:none">
+    <div class="panel">
+      <h2 class="screen-title danger">SIGNAL LOST</h2>
+      <p class="tagline">Your harvester went dark in the void.</p>
+      <div id="new-best" class="badge-new-best" style="display:none">★ NEW BEST ★</div>
+      <div class="stats">
+        <div class="stat-row"><span>FINAL SCORE</span><strong id="final-score">0</strong></div>
+        <div class="stat-row"><span>WAVE REACHED</span><strong id="final-wave">1</strong></div>
+        <div class="stat-row"><span>CREATURES DESTROYED</span><strong id="final-kills">0</strong></div>
+        <div class="stat-row"><span>SHARDS HARVESTED</span><strong id="final-shards">0</strong></div>
+        <div class="stat-row"><span>BEST SCORE</span><strong id="final-best">0</strong></div>
+      </div>
+      <button id="btn-restart" class="btn btn-primary btn-restart" type="button">↻&nbsp; Harvest Again (R)</button>
+    </div>
+  </div>
+</div>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>
