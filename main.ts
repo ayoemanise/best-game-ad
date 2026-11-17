@@ -14,6 +14,7 @@ import {
   cpSync,
   existsSync,
   mkdirSync,
+  readdirSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
@@ -41,8 +42,14 @@ function main(): void {
     throw new Error(`screenshots/ not found in ${REPO_ROOT}`);
   }
 
-  rmSync(OUTPUT_DIR, { recursive: true, force: true });
+  // Clear the output directory's contents without removing the directory
+  // itself: the grader mounts /output as a volume, and removing a mount
+  // point fails with EBUSY. mkdirSync on the existing empty directory is
+  // a no-op.
   mkdirSync(OUTPUT_DIR, { recursive: true });
+  for (const entry of readdirSync(OUTPUT_DIR)) {
+    rmSync(join(OUTPUT_DIR, entry), { recursive: true, force: true });
+  }
   cpSync(gameDir, join(OUTPUT_DIR, 'game'), { recursive: true });
   cpSync(shotsDir, join(OUTPUT_DIR, 'screenshots'), { recursive: true });
 
